@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chat_bed.Aop.Aoplog">
+
+    <insert id="newimagelog" parameterType="java.util.Map">
+        insert into image_visit (imagename,visit_time,ip,address)
+        VALUES (#{name},#{time},#{ip},#{address})
+    </insert>
+
+    <update id="lookadd" parameterType="String">
+        update image
+        <set>
+            looknum = looknum + 1
+        </set>
+        where name = #{name}
+    </update>
+
+    <insert id="newuserlog" parameterType="com.example.chat_bed.Aop.UserLogger">
+        insert into userlog (method_name,explains,visit_time,status,ip,address,userid,token,apitoken,referer,username,password,phone,email)
+        VALUES (#{method_name},#{explain},#{visit_time},#{status},#{ip},#{address},#{userid},#{token},#{apitoken},#{referer},#{username},#{password},#{phone},#{email})
+    </insert>
+
+    <select id="getuserid" resultType="Integer" parameterType="com.example.chat_bed.Aop.UserLogger">
+        select userid from user where username = #{username} or phone = #{username}
+    </select>
+
+    <select id="getphone" resultType="String" parameterType="com.example.chat_bed.Aop.UserLogger">
+        select phone from user where userid = #{userid}
+    </select>
+</mapper>

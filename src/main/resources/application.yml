@@ -1,0 +1,13 @@
+eureka:
+  instance:
+    hostname: server2
+    prefer-ip-address: true
+    instance-id: http://127.0.0.1:8807
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:7001/eureka/,http://127.0.0.1:7002/eureka/
+    fetch-registry: false
+    register-with-eureka: true
+spring:
+  application:
+    name: chat-bed

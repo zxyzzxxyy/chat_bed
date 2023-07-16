@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chat_bed.image.imagedao">
+
+    <select id="getuserimagenum" parameterType="Integer" resultType="Integer">
+        select image_num from user where userid = #{userid}
+    </select>
+
+    <update id="userimagenumadd" parameterType="Integer">
+        update user
+        <set>
+            image_num = image_num + 1
+        </set>
+        where userid = #{userid}
+    </update>
+
+    <select id="getuserid" parameterType="String" resultType="Integer">
+        select userid from user where `key` = #{token}
+    </select>
+
+    <insert id="newimage" parameterType="com.example.chat_bed.image.image">
+        insert into image (author,name,width,height,url,size,uploadtime)
+        values (#{author},#{name},#{width},#{height},#{url},#{size},#{uploadtime})
+    </insert>
+
+    <select id="getreferer" parameterType="String" resultType="String">
+        select referer from image where name = #{imagename}
+    </select>
+
+    <update id="updateRererer" parameterType="java.util.HashMap">
+        update image
+        <set>
+            referer = #{referer}
+        </set>
+        where author = #{userid}
+    </update>
+
+    <select id="getusersetting" parameterType="Integer" resultType="java.util.HashMap">
+        select userid,referer,sign,delay,space from user where userid = #{userid}
+    </select>
+
+    <select id="getimagenum" resultType="Integer" >
+        select count(*) from image
+    </select>
+
+    <select id="getimagemsg" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select image.id,image.name,image.size,image.width,image.height,image.author,image.uploadtime,looknum,image.referer,sign from image,user
+        where image.name = #{imagename} and user.userid = image.author
+    </select>
+
+    <select id="getmyimagelist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select image.id,image.name,image.size,image.width,image.height,image.author,image.uploadtime,looknum,image.referer,sign from image,user
+        where user.userid = image.author and user.userid = #{userid} ORDER BY image.id desc limit #{page},25
+    </select>
+
+    <select id="jugespace" parameterType="java.util.HashMap" resultType="Integer">
+        select `space` from user where userid = #{userid}
+    </select>
+
+    <select id="getheimagelist" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select image.id,image.name,image.size,image.width,image.height,image.author,image.uploadtime,looknum from image,user
+        where user.userid = image.author and user.userid = #{userid} ORDER BY image.id desc limit #{page},25
+    </select>
+</mapper>
